@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+</head>
+
+<head>
+    <!-- Title -->
+    <title>Grounding Language Plans in Demonstrations</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Grounding Language Plans in Demonstrations through Counterfactual Perturbations">
+    <meta name="keywords" content="Grounding LLM, Learning Mode Abstractions for Manipulation, Learning from Demonstration, Robotics, Task and Motion Planning">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- https://fontawesome.com/cheatsheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79592980-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-79592980-2');
+    </script>
+
+</head>
+
+
+<body>
+    <!-- <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark"> -->
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark" style="background-color: #A31F34;">
+        <a class="navbar-brand" href="#">Learning Grounding Classifiers for LLM Planning </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarToggle">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#Abstract">Abstract</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#Paper">Paper</a>
+                </li>              
+                <li class="nav-item">
+                    <a class="nav-link" href="#Talk">Method</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#MoreVideos">Experiments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#Related">Related Works</a>
+                </li>                  
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div class="container" style="padding-top: 80px; font-size: 20px">
+        <div align="center">
+            <h2 class="text-center" align="center">
+                <strong>GLiDE</strong>: <strong><u>G</u></strong>rounding <strong><u>L</u></strong></strong>anguage Plans <strong><u>i</u></strong>n <strong><u>De</u></strong>monstrations through Counterfactual Perturbations
+            </h2>
+            <h6>
+                <a href="https://yanweiw.github.io/" target="_blank">Yanwei Wang</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="https://zswang666.github.io/" target="_blank">Tsun-Hsuan Wang</a>&nbsp;&nbsp;&nbsp;&nbsp;                
+                <a href="https://jiayuanm.com" target="_blank">Jiayuan Mao</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="https://www.hageneaux.com/" target="_blank">Michael Hagenow</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="https://interactive.mit.edu/about/people/julie" target="_blank">Julie Shah</a><br>
+            </h6>
+            <small>Interactive Robotics Lab / CSAIL</small> <br>
+            <small>Massachusetts Institute of Technology</small>
+        </div>
+    </div><br>
+
+
+
+    <div class="container">
+        <div align="center">
+        <video autoplay loop muted width="80%" height="auto">
+            <source src="figs/ICLR_2024_intro_small.mp4" type="video/mp4">
+        </video>
+        </div>
+    </div><br><br>
+
+
+    <!-- Abstract -->
+    <div class="container">
+        <h4 id="Abstract" style="padding-top: 70px; margin-top: -80px; ">Abstract</h4>
+        <hr>
+
+        <div class="container" style="padding-top: 10px; font-size: 20px">
+            <div align="center">
+                <div class="center">
+                    <img class="img-responsive img-rounded" src="figs/framework.png" style="width:70%" alt="">
+                </div>
+            </div>
+        </div><br>
+
+        <div style="text-align: justify">
+        Grounding the common-sense reasoning of Large Language Models (LLMs) in physical domains remains a pivotal yet unsolved problem for embodied AI. Whereas prior works have focused on leveraging LLMs directly for planning in symbolic spaces, this work uses LLMs to guide the search of task structures and constraints implicit in multi-step demonstrations. Specifically, we borrow from manipulation planning literature the concept of mode families, which group robot configurations by specific motion constraints, to serve as an abstraction layer between the high-level language representations of an LLM and the low-level physical trajectories of a robot. By replaying a few human demonstrations with synthetic perturbations, we generate coverage over the demonstrations' state space with additional successful executions as well as counterfactuals that fail the task. Our explanation-based learning framework trains an end-to-end differentiable neural network to predict successful trajectories from failures and as a by-product learns classifiers that ground low-level states and images in mode families without dense labeling. The learned grounding classifiers can further be used to translate language plans into reactive policies in the physical domain in an interpretable manner. We show our approach improves the interpretability and reactivity of imitation learning through 2D navigation and simulated and real robot manipulation tasks.
+        </div>
+    </div><br><br>
+
+    <!-- Paper -->
+    <div class="container">
+        <h4 id="Paper" style="padding-top: 70px; margin-top: -80px;">Paper</h4>
+        <hr>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+                <a href="https://arxiv.org/abs/2403.17124">
+                    <papertitle>Grounding Language Plans in Demonstrations through Counterfactual Perturbations</papertitle>
+                </a><br>
+                <strong>Yanwei Wang</strong>,
+                Tsun-Hsuan Wang,
+                Jiayuan Mao,
+                Michael Hagenow,
+                Julie Shah
+              <em><br>
+              <a href="https://arxiv.org/abs/2403.17124">arxiv</a> /
+              <a href="https://openreview.net/forum?id=qoHeuRAcSl">review</a> /
+              <a href="">code (coming soon) </a> /
+              <a href="https://news.mit.edu/2024/engineering-household-robots-have-little-common-sense-0325">MIT News</a> /
+              <a href="https://techcrunch.com/2024/03/25/large-language-models-can-help-home-robots-recover-from-errors-without-human-help/">techcrunch</a>
+              <br>
+              <!-- <a href="" data-toggle="modal" data-target="#bibtex">bibtex</a><br> -->
+              <strong>ICLR 2024</strong> (<strong style="color:red;">Spotlight</strong>, acceptance rate: 5%)<br>
+              </em><br>
+            </td>
+
+    </div><br><br>
+
+
+    <div class="container">
+        <h4 id="Talk" style="padding-top: 30px; margin-top: -40px;">Method</h4>
+        <hr>
+
+        <!-- <div class="container" style="padding-top: 10px; font-size: 20px">
+            <div align="center">
+                <div class="center">
+                    <div style="text-align: justify; width:90%; font-size: 18px">
+                        <b>Main Question</b>: Given a <i>discrete</i> task plan encoded by LTL that is reactive to perturbations,
+                        how to ensure the plan is feasible for <i>continuous</i> policies learned from demonstrations,
+                        i.e. to guarantee motion imitation satisfies LTL?
+                    </div><br>
+                    <div style='text-align: justify; width: 90%; font-size: 18px; color:#A31F34'>
+                        <b>Main Takeaway</b>: Any arbitrary <i>discrete</i> task plan of mode sequence
+                        is achievable by a <i>continuous</i> motion imitation system, if every learned per-mode
+                        policy satisfies both <b>mode invariance</b> and <b>goal reachability</b>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-10 embed-responsive embed-responsive-16by9">
+                <video controls>
+                    <source src="figs/corl_oral_small.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div><br><br>      -->
+        
+        
+        <td style="padding:20px;width:25%;vertical-align:middle">
+            <div class="row justify-content-md-center">
+                <!-- <div style='text-align: center; width: 90%; font-size: 18px; color:#A31F34; width: 70%;' >
+                    <b>How TLI (yellow box) is related to prior work (gray boxes)</b>
+                </div><br><br> -->
+                <img src='figs/method.png' style="width:60%" alt="">
+            </div><br>
+            <div style="text-align: justify">
+                By prompting LLM to describe valid mode transitions in a feasibility matrix, and augmenting demonstrations with counterfactual
+                perturbations, we train a fully differentiable pipeline to predict task execution successes from failures. Since the fully-differentiable pipeline calculates overall trajectory success
+                based on the mode classification of individual states, we can learn classifiers that achieve grounding as a by-product of predicting the overall task execution.
+            </div>
+        </td><br><br>
+
+
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    <table class="center">
+                        <tr style=font-size:15pt>
+                            <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
+                                Generically Learned Motion Policy / Motion Policy with Stability Guarantee
+                                <p>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <video width="90%" class="center" controls>
+                                    <source src="figs/bc_policy.mp4" type="video/mp4">
+                                </video>
+                            </td>
+        
+                            <td>
+                                <video width="90%" class="center" controls>
+                                    <source src="figs/ds_policy.mp4" type="video/mp4">
+                                </video>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="text-align: justify; width: 95%;">
+                        Given a few demonstrations (red trajectories), generically learned
+                        (state-based behavior cloning) motion policies do not guarantee policy rollouts
+                        will always reach a goal given perturbations (on the left), while dynamical systems policy
+                        (a BC-variant with G.A.S. property) guarantees goal reachability.
+                    </div>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    <table class="center">
+                        <tr style=font-size:15pt>
+                            <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
+                                Motion Policy without Mode Invariance / with Mode Invariance
+                                <p>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <video width="90%" class="center" controls>
+                                    <source src="figs/no_mod_stuck.mp4" type="video/mp4">
+                                </video>
+                            </td>
+        
+                            <td>
+                                <video width="90%" class="center" controls>
+                                    <source src="figs/with_mod_no_stuck.mp4" type="video/mp4">
+                                </video>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="text-align: justify; width: 95%;">
+                        The task is to transition through the white, yellow, pink,
+                        and green regions consecutively. The pink region can only be entered from the
+                        yellow region, and the green region can only be entered from the pink region.
+                        Motion policies without mode invariance<i>-the property that policy rollouts
+                            do not leave a mode prematurely-</i>lead to looping despite LTL'reactivity
+                        (on the left), while motion policies with mode invariance (achieved by boundary
+                        estimation and modulation) ensure both constraint satisfaction and goal reachability.
+                    </div>
+                </ul>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    <table class="center">
+                        <tr style=font-size:15pt>
+                            <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
+                                Iterative Boundary Estimation of Unknown Mode with Cutting Planes
+                                <p>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td width="50%">
+                                <video width="90%" class="center" controls>
+                                    <source src="figs/boundary_estimation.mp4" type="video/mp4">
+                                </video>
+                            </td>
+                            <td>
+                                <div style="text-align: justify; width: 90%;">
+                                    To modulate motion policies so that they become mode-invariant,
+                                    unknown mode boundary is first estimated. Invariance failures detected by sensors
+                                    are used to find cutting planes that bound the mode within which DS flows are modulated
+                                    to stay.
+                                    Note flows that have left the mode will re-enter the mode due to LTL's reactivity,
+                                    and iteratively increasingly better boundary estimation is attained.
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                </ul>
+            </div>
+        </div>
+
+    </div><br><br> -->
+
+    <div class="container">
+        <h4 id="MoreVideos" style="padding-top: 30px; margin-top: -40px;">Experiments</h4>
+        <hr>
+
+
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    <table class="center">
+                        <tr style=font-size:15pt>
+                            <td style='text-align:center; vertical-align:middle; color:#A31F34' colspan="4">
+                                Generalization to New Tasks by Reusing Learned Skills
+                                <p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%">
+                                <video width="90%" class="center" controls>
+                                    <source src="figs/get_chicken_first.mp4" type="video/mp4">
+                                </video>
+                            </td>        
+                            <td width="25%">
+                                <video width="90%" class="center" controls>
+                                    <source src="figs/get_broccoli_first.mp4" type="video/mp4">
+                                </video>
+                            </td>
+                            <td width="25%">
+                                <video width="90%" class="center" controls>
+                                    <source src="figs/getting_only_chicken.mp4" type="video/mp4">
+                                </video>
+                            </td>
+                            <td width="25%">
+                                <video width="90%" class="center" controls>
+                                    <source src="figs/continuously_getting_chicken.mp4" type="video/mp4">
+                                </video>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="text-align: justify; width: 98%;">
+                        LTL-DS generalizes to new task structures (encoded by LTL) by flexibly combining individual skills learned in
+                        demonstrations. Consider a demonstration of adding chicken (visiting the yellow region) and then broccoli (visiting the
+                        green region) to a pot (visiting the gray region). After individual DS of visiting the yellow, the green, and the gray
+                        region are learned, they can be recombined given a new LTL (refer to the paper) to solve new tasks such as (1) adding
+                        broccoli and then chicken, (2) adding only chicken, (3) continuously adding chicken. Note the white region represents an
+                        empty spoon and crossing from yellow/green to white means spilling the food.
+                    </div>
+                </ul>
+            </div>
+        </div><br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    <table class="center">
+                        <tr style=font-size:15pt>
+                            <td style='text-align:center; vertical-align:middle; color:#A31F34' colspan="4">
+                                Line Inspection Task
+                                <p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <video width="100%" class="center" controls>
+                                    <source src="figs/exp2.mp4" type="video/mp4">
+                                </video>
+                            </td>
+                        </tr>
+                    </table>
+                </ul>
+            </div>
+        </div><br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    <table class="center">
+                        <tr style=font-size:15pt>
+                            <td style='text-align:center; vertical-align:middle; color:#A31F34' colspan="4">
+                                Color Tracing Task
+                                <p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <video width="100%" class="center" controls>
+                                    <source src="figs/exp3.mp4" type="video/mp4">
+                                </video>
+                            </td>
+                        </tr>
+                    </table>
+                </ul>
+            </div>
+        </div><br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    <table class="center">
+                        <tr style=font-size:15pt>
+                            <td style='text-align:center; vertical-align:middle; color:#A31F34' colspan="4">
+                                Scooping Task
+                                <p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <video width="100%" class="center" controls>
+                                    <source src="figs/exp1_human_perturb.mp4" type="video/mp4">
+                                </video>
+                            </td>
+                        </tr>
+                    </table>
+                </ul>
+            </div>
+        </div><br> -->
+        Migrating videos from the <a href="https://sites.google.com/view/grounding-plans">old website</a>. Coming soon.
+    </div><br>
+
+
+    <!-- Poster -->
+    <div class="container">
+        <h4 id="Related" style="padding-top: 30px; margin-top: -40px;">Related Works - Prior work that GLiDE extends by learning instead of engineering sensor models</h4>
+        <hr>
+
+
+        <table class="center">
+        <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+                <div class="one">
+                    <img src='figs/robot_1.jpg' width="100%">
+                </div>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+                <a href="https://yanweiw.github.io/tli/">
+                    <papertitle>Temporal Logic Imitation: Learning Plan-Satisficing Motion Policies from Demonstrations
+                    </papertitle>
+                </a>
+                <br>
+                <strong>Yanwei Wang</strong>,
+                Nadia Figueroa, Shen Li, Ankit Shah, Julie Shah
+                <em><br>
+                    <a href="https://arxiv.org/abs/2206.04632">arxiv</a>
+                    /
+                    <a href="https://github.com/yanweiw/tli">code</a>
+                    /
+                    <a href="https://yanweiw.github.io/tli/">project page</a><br>
+                    <strong>CoRL 2022</strong> (<strong style="color:red;">Oral</strong>, acceptance rate: 6.5%) <br>
+                    <strong>IROS 2023 Workshop</strong> (<strong style="color:red;"> Best Student Paper</strong>, Learning Meets
+                    Model-based Methods for Manipulation and Grasping Workshop)
+                </em><br>
+        
+                <!-- / -->
+                <!-- <a href="https://arxiv.org/abs/2106.01970">arXiv</a> -->
+                <!-- / -->
+                <!-- <a href="https://www.youtube.com/watch?v=UUVSPJlwhPg">video</a> -->
+                <!-- <p></p> -->
+                <p>We present a continuous motion imitation method that can provably satisfy any discrete plan specified by a
+                    Linear Temporal Logic (LTL) formula. Consequently, the imitator is robust to both task- and motion-level
+                    disturbances and guaranteed to achieve task success.</p>
+            </td>
+        </table>
+
+        
+
+
+    </div><br><br>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
