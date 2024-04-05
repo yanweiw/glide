@@ -2,7 +2,31 @@
 <html lang="en">
 
 <head>
+    <style>
+        .center {
+        width: 100%;
+        }
 
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+        }
+
+        .full-width-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .caption {
+            text-align: center;
+            margin-top: auto; /* Pushes the caption to the bottom of the container */
+        }        
+    </style>
 </head>
 
 <head>
@@ -187,129 +211,116 @@
         </td><br><br>
 
 
-        <div class="row">
-            <div class="col-md-12">
-                <ul>
-                    <table class="center">
-                        <tr style=font-size:15pt>
-                            <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
-                                Can Task: Pick up the can and place it in the bottom-right bin
-                                <p>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <video width=100% class="center" controls>
-                                    <source src="figs/can_BC.mp4" type="video/mp4">
-                                </video>
-                                <!-- <p style="text-align: center;">BC rollouts (93% success)</p> -->
-                            </td>
-        
-                            <td>
-                                <video width=50% class="center" controls>
-                                    <source src="figs/can_BC_pert.mp4" type="video/mp4">
-                                </video>
-                                <!-- <p style="text-align: center;">BC rollouts + perturbations (20% success)</p> -->
-                            </td>
-
-                            <td>
-                                <video width=50% class="center" controls>
-                                    <source src="figs/can_MC_pert.mp4" type="video/mp4">
-                                </video>
-                                <!-- <p style="text-align: center;">Mode-conditioned policy + perturbations (40% success)</p> -->
-                            </td>
-                        </tr>
-                    </table>
-                    <div style="text-align: justify; width: 95%;">
-                        Given a few demonstrations (red trajectories), generically learned
-                        (state-based behavior cloning) motion policies do not guarantee policy rollouts
-                        will always reach a goal given perturbations (on the left), while dynamical systems policy
-                        (a BC-variant with G.A.S. property) guarantees goal reachability.
-                    </div>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-12">
-                <ul>
-                    <table class="center">
-                        <tr style=font-size:15pt>
-                            <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
-                                Motion Policy without Mode Invariance / with Mode Invariance
-                                <p>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <video width="90%" class="center" controls>
-                                    <source src="figs/no_mod_stuck.mp4" type="video/mp4">
-                                </video>
-                            </td>
-        
-                            <td>
-                                <video width="90%" class="center" controls>
-                                    <source src="figs/with_mod_no_stuck.mp4" type="video/mp4">
-                                </video>
-                            </td>
-                        </tr>
-                    </table>
-                    <div style="text-align: justify; width: 95%;">
-                        The task is to transition through the white, yellow, pink,
-                        and green regions consecutively. The pink region can only be entered from the
-                        yellow region, and the green region can only be entered from the pink region.
-                        Motion policies without mode invariance<i>-the property that policy rollouts
-                            do not leave a mode prematurely-</i>lead to looping despite LTL'reactivity
-                        (on the left), while motion policies with mode invariance (achieved by boundary
-                        estimation and modulation) ensure both constraint satisfaction and goal reachability.
-                    </div>
-                </ul>
-            </div>
-        </div>
-        
-        
-        <div class="row">
-            <div class="col-md-12">
-                <ul>
-                    <table class="center">
-                        <tr style=font-size:15pt>
-                            <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
-                                Iterative Boundary Estimation of Unknown Mode with Cutting Planes
-                                <p>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td width="50%">
-                                <video width="90%" class="center" controls>
-                                    <source src="figs/boundary_estimation.mp4" type="video/mp4">
-                                </video>
-                            </td>
-                            <td>
-                                <div style="text-align: justify; width: 90%;">
-                                    To modulate motion policies so that they become mode-invariant,
-                                    unknown mode boundary is first estimated. Invariance failures detected by sensors
-                                    are used to find cutting planes that bound the mode within which DS flows are modulated
-                                    to stay.
-                                    Note flows that have left the mode will re-enter the mode due to LTL's reactivity,
-                                    and iteratively increasingly better boundary estimation is attained.
-                                </div>
-                            </td>
-                        </tr>
-
-                    </table>
-                </ul>
-            </div>
-        </div>
-
-    </div><br><br>
 
     <div class="container">
         <h4 id="MoreVideos" style="padding-top: 30px; margin-top: -40px;">Experiments</h4>
         <hr>
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="center">
+                            <tr style=font-size:15pt>
+                                <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
+                                    Learned Mode Segmentation of Demonstrations in Robosuite Manipulation Tasks
+                                    <p>
+                                </td>
+                            </tr>
+                
+                            <tr>
+                                <td width="50%">
+                                    <img src='figs/robosuite_segmentation.png' width="100%">
+                                </td>
+                
+                                <td align="right">
+                                    <div style="text-align: justify; width: 90%;">
+                                        <strong>(Left)</strong> We manually set a ground truth based on RoboSuite state information to
+                                        benchmark our learned mode segmentation, visualized in the left figure. <span
+                                            style="color:#A31F34">Can Task: </span> pick up the can and place it in the bottom-right
+                                        bin. <span style="color:#A31F34">Lifting Task: </span>pick up the block above a specified
+                                        height. <span style="color:#A31F34">Square Peg Task: </span>pick up the square nut and place it
+                                        on the square peg. You can view pictures of all of the classification results <a
+                                            href="https://drive.google.com/drive/folders/1qapomOjcBTvmdEXVCpfz9o6VbAckfSzx">here</a>.
+                                        <strong>(Below)</strong> To show the learned grounding can facilitate planning using LLMs, we
+                                        apply perturbations to Behavioral Cloning (BC) rollouts below. BC performance drops off
+                                        significantly with perturbations, but our method generally recovers better after the robot drops
+                                        the can as the robot will be directed to pick up the can again.
+                                    </div>
+                                </td>
+                            </tr>
+                
+                        </table>
+                    </div>
+                </div><br>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <ul> -->
+                        <table class="center">
+                            <tr style=font-size:15pt>
+                                <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="3">
+                                    Learned Grounding facilitates replanning with LLMs to improve execution success rate
+                                    <p>
+                                </td>
+                            </tr>
+                
+                            <tr>
+                                <td style="width: 30%;">
+                                    <div class="video-container">
+                                        <video controls class="full-width-video">
+                                            <source src="figs/can_BC.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <!-- <p style="text-align: center;">BC rollouts (93% success)</p> -->
+                                </td>
+                
+                                <td style="width: 30%;">
+                                    <div class="video-container">
+                                        <video controls class="full-width-video">
+                                            <source src="figs/can_BC_pert.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <!-- <p style="text-align: center;">BC rollouts + perturbations (20% success)</p> -->
+                                </td>
+                
+                                <td style="width: 30%;">
+                                    <div class="video-container">
+                                        <video controls class="full-width-video">
+                                            <source src="figs/can_MC_pert.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <!-- <p style="text-align: center;">Mode-conditioned policy + perturbations (40% success)</p> -->
+                                </td>
+                            </tr>
+                
+                            <tr>
+                                <td>
+                                    <div class="caption">
+                                        Behavior cloning (BC) rollouts: 93% success
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="caption">
+                                        BC rollouts (perturbed): 20% success
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="caption">
+                                        Mode-conditioned BC (perturbed): 40% success
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                
+                
+                    </div>
+                </div>
+                
+                <br>
+                Migrating videos from the <a href="https://sites.google.com/view/grounding-plans">old website</a>. Coming soon.
+                
+                
+                
+                </div><br><br>
 
         <!-- <div class="row">
             <div class="col-md-12">
@@ -421,7 +432,7 @@
                 </ul>
             </div>
         </div><br> -->
-        Migrating videos from the <a href="https://sites.google.com/view/grounding-plans">old website</a>. Coming soon.
+
     </div><br>
 
 
