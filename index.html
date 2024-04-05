@@ -73,7 +73,7 @@
         <div align="center">
             <h2 class="text-center" align="center">
                 <strong>GLiDE</strong>: <strong><u>G</u></strong>rounding <strong><u>L</u></strong></strong>anguage Plans <strong><u>i</u></strong>n <strong><u>De</u></strong>monstrations through Counterfactual Perturbations
-            </h2>
+            </h2><br>
             <h6>
                 <a href="https://yanweiw.github.io/" target="_blank">Yanwei Wang</a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="https://zswang666.github.io/" target="_blank">Tsun-Hsuan Wang</a>&nbsp;&nbsp;&nbsp;&nbsp;                
@@ -182,35 +182,42 @@
                 <img src='figs/method.png' style="width:60%" alt="">
             </div><br>
             <div style="text-align: justify">
-                By prompting LLM to describe valid mode transitions in a feasibility matrix, and augmenting demonstrations with counterfactual
-                perturbations, we train a fully differentiable pipeline to predict task execution successes from failures. Since the fully-differentiable pipeline calculates overall trajectory success
-                based on the mode classification of individual states, we can learn classifiers that achieve grounding as a by-product of predicting the overall task execution.
+                By prompting LLM to describe successful executions in terms of valid mode transitions via a feasibility matrix, and augmenting demonstrations with counterfactual perturbations, we train a fully differentiable pipeline to predict task execution outcomes. Since the fully-differentiable pipeline calculates overall trajectory success based on mode classification results of individual states, we can learn classifiers that achieve grounding as a by-product of predicting the overall task execution.
             </div>
         </td><br><br>
 
 
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-md-12">
                 <ul>
                     <table class="center">
                         <tr style=font-size:15pt>
                             <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
-                                Generically Learned Motion Policy / Motion Policy with Stability Guarantee
+                                Can Task: Pick up the can and place it in the bottom-right bin
                                 <p>
                             </td>
                         </tr>
         
                         <tr>
                             <td>
-                                <video width="90%" class="center" controls>
-                                    <source src="figs/bc_policy.mp4" type="video/mp4">
+                                <video width=100% class="center" controls>
+                                    <source src="figs/can_BC.mp4" type="video/mp4">
                                 </video>
+                                <!-- <p style="text-align: center;">BC rollouts (93% success)</p> -->
                             </td>
         
                             <td>
-                                <video width="90%" class="center" controls>
-                                    <source src="figs/ds_policy.mp4" type="video/mp4">
+                                <video width=50% class="center" controls>
+                                    <source src="figs/can_BC_pert.mp4" type="video/mp4">
                                 </video>
+                                <!-- <p style="text-align: center;">BC rollouts + perturbations (20% success)</p> -->
+                            </td>
+
+                            <td>
+                                <video width=50% class="center" controls>
+                                    <source src="figs/can_MC_pert.mp4" type="video/mp4">
+                                </video>
+                                <!-- <p style="text-align: center;">Mode-conditioned policy + perturbations (40% success)</p> -->
                             </td>
                         </tr>
                     </table>
@@ -297,7 +304,7 @@
             </div>
         </div>
 
-    </div><br><br> -->
+    </div><br><br>
 
     <div class="container">
         <h4 id="MoreVideos" style="padding-top: 30px; margin-top: -40px;">Experiments</h4>
