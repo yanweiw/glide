@@ -26,6 +26,9 @@
             text-align: center;
             margin-top: auto; /* Pushes the caption to the bottom of the container */
         }        
+        .transparent-image {
+            opacity: 0.7; /* Set opacity to 50% */
+        }
     </style>
 </head>
 
@@ -170,45 +173,19 @@
     <div class="container">
         <h4 id="Talk" style="padding-top: 30px; margin-top: -40px;">Method</h4>
         <hr>
-
-        <!-- <div class="container" style="padding-top: 10px; font-size: 20px">
-            <div align="center">
-                <div class="center">
-                    <div style="text-align: justify; width:90%; font-size: 18px">
-                        <b>Main Question</b>: Given a <i>discrete</i> task plan encoded by LTL that is reactive to perturbations,
-                        how to ensure the plan is feasible for <i>continuous</i> policies learned from demonstrations,
-                        i.e. to guarantee motion imitation satisfies LTL?
-                    </div><br>
-                    <div style='text-align: justify; width: 90%; font-size: 18px; color:#A31F34'>
-                        <b>Main Takeaway</b>: Any arbitrary <i>discrete</i> task plan of mode sequence
-                        is achievable by a <i>continuous</i> motion imitation system, if every learned per-mode
-                        policy satisfies both <b>mode invariance</b> and <b>goal reachability</b>.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row justify-content-md-center">
-            <div class="col-md-10 embed-responsive embed-responsive-16by9">
-                <video controls>
-                    <source src="figs/corl_oral_small.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div><br><br>      -->
-        
         
         <td style="padding:20px;width:25%;vertical-align:middle">
             <div class="row justify-content-md-center">
                 <!-- <div style='text-align: center; width: 90%; font-size: 18px; color:#A31F34; width: 70%;' >
                     <b>How TLI (yellow box) is related to prior work (gray boxes)</b>
                 </div><br><br> -->
-                <img src='figs/method.png' style="width:60%" alt="">
+                <img src='figs/method.png' style="width:60%" align="center" alt="">
             </div><br>
             <div style="text-align: justify">
                 By prompting LLM to describe successful executions in terms of valid mode transitions via a feasibility matrix, and augmenting demonstrations with counterfactual perturbations, we train a fully differentiable pipeline to predict task execution outcomes. Since the fully-differentiable pipeline calculates overall trajectory success based on mode classification results of individual states, we can learn classifiers that achieve grounding as a by-product of predicting the overall task execution.
             </div>
-        </td><br><br>
+        </td>
+    </div><br><br>
 
 
 
@@ -216,104 +193,293 @@
         <h4 id="MoreVideos" style="padding-top: 30px; margin-top: -40px;">Experiments</h4>
         <hr>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="center">
-                            <tr style=font-size:15pt>
-                                <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
-                                    Learned Mode Segmentation of Demonstrations in Robosuite Manipulation Tasks
-                                    <p>
-                                </td>
-                            </tr>
-                
-                            <tr>
-                                <td width="50%">
-                                    <img src='figs/robosuite_segmentation.png' width="100%">
-                                </td>
-                
-                                <td align="right">
-                                    <div style="text-align: justify; width: 90%;">
-                                        <strong>(Left)</strong> We manually set a ground truth based on RoboSuite state information to
-                                        benchmark our learned mode segmentation, visualized in the left figure. <span
-                                            style="color:#A31F34">Can Task: </span> pick up the can and place it in the bottom-right
-                                        bin. <span style="color:#A31F34">Lifting Task: </span>pick up the block above a specified
-                                        height. <span style="color:#A31F34">Square Peg Task: </span>pick up the square nut and place it
-                                        on the square peg. You can view pictures of all of the classification results <a
-                                            href="https://drive.google.com/drive/folders/1qapomOjcBTvmdEXVCpfz9o6VbAckfSzx">here</a>.
-                                        <strong>(Below)</strong> To show the learned grounding can facilitate planning using LLMs, we
-                                        apply perturbations to Behavioral Cloning (BC) rollouts below. BC performance drops off
-                                        significantly with perturbations, but our method generally recovers better after the robot drops
-                                        the can as the robot will be directed to pick up the can again.
-                                    </div>
-                                </td>
-                            </tr>
-                
-                        </table>
-                    </div>
-                </div><br>
-                
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- <ul> -->
-                        <table class="center">
-                            <tr style=font-size:15pt>
-                                <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="3">
-                                    Learned Grounding facilitates replanning with LLMs to improve execution success rate
-                                    <p>
-                                </td>
-                            </tr>
-                
-                            <tr>
-                                <td style="width: 30%;">
-                                    <div class="video-container">
-                                        <video controls class="full-width-video">
-                                            <source src="figs/can_BC.mp4" type="video/mp4">
-                                        </video>
-                                    </div>
-                                    <!-- <p style="text-align: center;">BC rollouts (93% success)</p> -->
-                                </td>
-                
-                                <td style="width: 30%;">
-                                    <div class="video-container">
-                                        <video controls class="full-width-video">
-                                            <source src="figs/can_BC_pert.mp4" type="video/mp4">
-                                        </video>
-                                    </div>
-                                    <!-- <p style="text-align: center;">BC rollouts + perturbations (20% success)</p> -->
-                                </td>
-                
-                                <td style="width: 30%;">
-                                    <div class="video-container">
-                                        <video controls class="full-width-video">
-                                            <source src="figs/can_MC_pert.mp4" type="video/mp4">
-                                        </video>
-                                    </div>
-                                    <!-- <p style="text-align: center;">Mode-conditioned policy + perturbations (40% success)</p> -->
-                                </td>
-                            </tr>
-                
-                            <tr>
-                                <td>
-                                    <div class="caption">
-                                        Behavior cloning (BC) rollouts: 93% success
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="caption">
-                                        BC rollouts (perturbed): 20% success
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="caption">
-                                        Mode-conditioned BC (perturbed): 40% success
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                
-                
-                    </div>
+            <div style='text-align: justify; width: 90%; font-size: 15pt; color:#A31F34'>
+                Learned Mode Partitions of Configuration Space for 2D Navigation Tasks
+                <p></p>
+            </div>
+            <div>
+                The navigation domain serves as a 2D abstraction of the modal structure for multi-step manipulation tasks, where
+                each polygon represents a different mode with its boundary showing the constraint. The goal is to traverse through
+                the sequence consecutively as demonstrated until reaching the last colored polygon.
+                <p></p>
+            </div>
+
+            <div class="row">
+                    <table class="center">
+                        <tr>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_3a.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_3b.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_3c.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_3d.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_3e.png' width="90%" class="transparent-image">
+                                <p></p>
+                            </td>
+                        </tr>
+            
+                        <tr> 
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_4a.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_4b.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_4c.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_4d.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_4e.png' width="90%" class="transparent-image">
+                                <p></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_5a.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_5b.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_5c.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_5d.png' width="90%">
+                                <p></p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <img src='figs/polygon_5e.png' width="90%" class="transparent-image">
+                                <p></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 20%; text-align: center;">
+                                <p style="width: 90%; margin: 0 auto;">(a) Demonstrations and ground truth modes</p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <p style="width: 90%; margin: 0 auto;">(b) Grounding learned by GLiDE</p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <p style="width: 90%; margin: 0 auto;">(c) GLiDE without counterfactual data</p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <p style="width: 90%; margin: 0 auto;">(d) GLiDE with incorrect number of modes</p>
+                            </td>
+                            <td style="width: 20%; text-align: center;">
+                                <p style="width: 90%; margin: 0 auto;">(e) Baseline: similarity-based clustering</p>
+                            </td>
+                        </tr>
+                    </table>
+            </div><br><br>
+
+
+            <div style='text-align: justify; width: 90%; font-size: 15pt; color:#A31F34'>
+                Learned Mode Partitions Explain Why Some Perturbed Trajectories Succeed While Others Fail
+                <p></p>
+            </div>
+            <div>
+                Learned classifier explains success trajectories by checking if all transitions incur 0 cost (shown by the whiteness of dots). It also explains failure trajectories by checking if there exists at least one invalid transition (indicated by the blackness of dots).
+                <p></p>
+            </div>
+            <div class="row">
+                    <table class="center">            
+                        <tr>
+                            <td style="width: 25%; text-align: center;">
+                                <img src='figs/polygon_succ_1.png' width="80%">
+                                <p></p>
+                            </td>
+                            <td style="width: 25%; text-align: center;">
+                                <img src='figs/polygon_succ_2.png' width="80%">
+                                <p></p>
+                            </td>
+
+                            <td style="width: 25%; text-align: center;">
+                                <img src='figs/polygon_fail_1.png' width="80%">
+                                <p></p>
+                            </td>
+                            <td style="width: 25%; text-align: center;">
+                                <img src='figs/polygon_fail_2.png' width="80%">
+                                <p></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="width: 25%; text-align: center;">
+                                <p style="width: 80%; margin: 0 auto;">Successful Execution 1</p>
+                            </td>
+                            <td style="width: 25%; text-align: center;">
+                                <p style="width: 80%; margin: 0 auto;">Successful Execution 2</p>
+                            </td>
+
+                            <td style="width: 25%; text-align: center;">
+                                <p style="width: 80%; margin: 0 auto;">Failing Counterfactual 1</p>
+                            </td>
+                            <td style="width: 25%; text-align: center;">
+                                <p style="width: 80%; margin: 0 auto;">Failing Counterfactual 2</p>
+                            </td>
+                        </tr>
+                    </table>
+            </div><br><br>
+             
+            <div style='text-align: justify; width: 90%; font-size: 15pt; color:#A31F34'>
+                Learned Mode Partitions Allow Planning Reactive Behavior for 2D Navigation Tasks
+                <p></p>
+            </div>
+            <div>
+                The learned grounding classifier can be used to segment whole demonstrations into sub-sequences for each mode, for which we extract the sub-goal (the average crossing point at each boundary) for each mode. Additionally, the explicit mode partitions allow us construct a potential flow controller for each mode that directs the system to reach each sub-goal without leaving the current mode prematurely. Should the execution be derailed by external perturbations, planning without and with the learned mode boundaries can lead to execution failures (left) or successes (right), respectively.
+                <p></p>
+            </div>
+            <div class="row">
+                <table class="center">
+                    <tr>
+                        <td style="width: 50%; text-align: center;">
+                            <div style="width: 70%; margin: 0 auto;">
+                                <video src="figs/polygon_no_replanning.mp4" type="video/mp4" controls="controls" class="center">
+                                </video>
+                                <!-- <p style="text-align: center;">Planning without grounding leads to execution failure</p> -->
+                            </div>
+                        </td>
+                        <td style="width: 50%; text-align: center;">
+                            <div style="width: 70%; margin: 0 auto;">
+                                <video src="figs/polygon_replanning.mp4" type="video/mp4" controls="controls" class="center">
+                                </video>
+                            </div>
+                            <!-- <p style="text-align: center;">Planning with grounding leads to reactive behavior that succeed in the task</p> -->
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 50%; text-align: center;">
+                            <p style="width: 70%; margin: 0 auto;">Planning without learned grounding leads to failures due to invalid mode transitions</p>
+                        </td>
+
+                        <td style="width: 50%; text-align: center;">
+                            <p style="width: 70%; margin: 0 auto;">Planning with learned grounding leads to successful recovery that obeys mode constraints</p>
+                        </td>
+                    </tr>
+                </table>
+            </div><br><br>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="center">
+                        <tr style=font-size:15pt>
+                            <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
+                                Learned Mode Segmentation of Demonstrations in Robosuite Manipulation Tasks
+                                <p>
+                            </td>
+                        </tr>
+            
+                        <tr>
+                            <td width="50%">
+                                <img src='figs/robosuite_segmentation.png' width="100%">
+                            </td>
+            
+                            <td align="right">
+                                <div style="text-align: justify; width: 90%;">
+                                    <strong>(Left)</strong> We manually set a ground truth based on RoboSuite state information to
+                                    benchmark our learned mode segmentation, visualized in the left figure. <span
+                                        style="color:#A31F34">Can Task: </span> pick up the can and place it in the bottom-right
+                                    bin. <span style="color:#A31F34">Lifting Task: </span>pick up the block above a specified
+                                    height. <span style="color:#A31F34">Square Peg Task: </span>pick up the square nut and place it
+                                    on the square peg. You can view pictures of all of the classification results <a
+                                        href="https://drive.google.com/drive/folders/1qapomOjcBTvmdEXVCpfz9o6VbAckfSzx">here</a>.
+                                    <strong>(Below)</strong> To show the learned grounding can facilitate planning using LLMs, we
+                                    apply perturbations to Behavioral Cloning (BC) rollouts below. BC performance drops off
+                                    significantly with perturbations, but our method generally recovers better after the robot drops
+                                    the can as the robot will be directed to pick up the can again.
+                                </div>
+                            </td>
+                        </tr>
+            
+                    </table>
                 </div>
+            </div><br><br>
+        
+                
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <ul> -->
+                    <table class="center">
+                        <tr style=font-size:15pt>
+                            <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="3">
+                                Learned Grounding facilitates replanning with LLMs to improve execution success rate
+                                <p>
+                            </td>
+                        </tr>
+            
+                        <tr>
+                            <td style="width: 30%;">
+                                <div class="video-container">
+                                    <video controls class="full-width-video">
+                                        <source src="figs/can_BC.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <!-- <p style="text-align: center;">BC rollouts (93% success)</p> -->
+                            </td>
+            
+                            <td style="width: 30%;">
+                                <div class="video-container">
+                                    <video controls class="full-width-video">
+                                        <source src="figs/can_BC_pert.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <!-- <p style="text-align: center;">BC rollouts + perturbations (20% success)</p> -->
+                            </td>
+            
+                            <td style="width: 30%;">
+                                <div class="video-container">
+                                    <video controls class="full-width-video">
+                                        <source src="figs/can_MC_pert.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <!-- <p style="text-align: center;">Mode-conditioned policy + perturbations (40% success)</p> -->
+                            </td>
+                        </tr>
+            
+                        <tr>
+                            <td>
+                                <div class="caption">
+                                    Behavior cloning (BC) rollouts: 93% success
+                                </div>
+                            </td>
+                            <td>
+                                <div class="caption">
+                                    BC rollouts (perturbed): 20% success
+                                </div>
+                            </td>
+                            <td>
+                                <div class="caption">
+                                    Mode-conditioned BC (perturbed): 40% success
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
                 
                 <br>
                 Migrating videos from the <a href="https://sites.google.com/view/grounding-plans">old website</a>. Coming soon.
