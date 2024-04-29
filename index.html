@@ -84,10 +84,13 @@
                     <a class="nav-link" href="#Paper">Paper</a>
                 </li>              
                 <li class="nav-item">
-                    <a class="nav-link" href="#Talk">Method</a>
+                    <a class="nav-link" href="#Talk">Talk</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#MoreVideos">Experiments</a>
+                    <a class="nav-link" href="#Method">Method</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#Experiments">Experiments</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#Related">Related Works</a>
@@ -171,18 +174,38 @@
 
 
     <div class="container">
-        <h4 id="Talk" style="padding-top: 30px; margin-top: -40px;">Method</h4>
+        <h4 id="Talk" style="padding-top: 30px; margin-top: -40px;">Talk</h4>
         <hr>
         
         <td style="padding:20px;width:25%;vertical-align:middle">
-            <div class="row justify-content-md-center">
-                <!-- <div style='text-align: center; width: 90%; font-size: 18px; color:#A31F34; width: 70%;' >
-                    <b>How TLI (yellow box) is related to prior work (gray boxes)</b>
-                </div><br><br> -->
-                <img src='figs/method.png' style="width:60%" align="center" alt="">
+
+            <div class="container">
+                <div align="center">
+                    <video src="figs/iclr_talk.mp4" type="video/mp4" controls="controls" class="center">
+                    </video>
+                </div>
             </div><br>
+        </td>
+    </div><br><br>
+
+    <div class="container">
+        <h4 id="Method" style="padding-top: 30px; margin-top: -40px;">Method</h4>
+        <hr>
+    
+        <td style="padding:20px;width:25%;vertical-align:middle">
+    
+            <div align="center">
+                <div class="center">
+                    <img src="figs/method.png" style="width:60%" alt="">
+                </div>
+            </div><br>
+    
             <div style="text-align: justify">
-                By prompting LLM to describe successful executions in terms of valid mode transitions via a feasibility matrix, and augmenting demonstrations with counterfactual perturbations, we train a fully differentiable pipeline to predict task execution outcomes. Since the fully-differentiable pipeline calculates overall trajectory success based on mode classification results of individual states, we can learn classifiers that achieve grounding as a by-product of predicting the overall task execution.
+                By prompting LLM to describe successful executions in terms of valid mode transitions via a feasibility
+                matrix, and augmenting demonstrations with counterfactual perturbations, we train a fully differentiable
+                pipeline to predict task execution outcomes. Since the fully-differentiable pipeline calculates overall
+                trajectory success based on mode classification results of individual states, we can learn classifiers that
+                achieve grounding as a by-product of predicting the overall task execution.
             </div>
         </td>
     </div><br><br>
@@ -190,7 +213,7 @@
 
 
     <div class="container">
-        <h4 id="MoreVideos" style="padding-top: 30px; margin-top: -40px;">Experiments</h4>
+        <h4 id="Experiments" style="padding-top: 30px; margin-top: -40px;">Experiments</h4>
         <hr>
 
             <div style='text-align: justify; width: 90%; font-size: 15pt; color:#A31F34'>
@@ -200,7 +223,7 @@
             <div>
                 The navigation domain serves as a 2D abstraction of the modal structure for multi-step manipulation tasks, where
                 each polygon represents a different mode with its boundary showing the constraint. The goal is to traverse through
-                the sequence consecutively as demonstrated until reaching the last colored polygon.
+                the sequence consecutively as demonstrated until reaching the last colored polygon (e.g. mode 1 -> 2 -> 3 -> 4 -> 5). Mode transitions violating the demonstrated temporal ordering will lead to task failure (e.g. mode 1 -> 3/4/5).
                 <p></p>
             </div>
 
@@ -212,7 +235,7 @@
                                 <p></p>
                             </td>
                             <td style="width: 20%; text-align: center;">
-                                <img src='figs/polygon_3b.png' width="90%">
+                                <img src='figs/polygon_3b_new.png' width="90%">
                                 <p></p>
                             </td>
                             <td style="width: 20%; text-align: center;">
@@ -235,7 +258,7 @@
                                 <p></p>
                             </td>
                             <td style="width: 20%; text-align: center;">
-                                <img src='figs/polygon_4b.png' width="90%">
+                                <img src='figs/polygon_4b_new.png' width="90%">
                                 <p></p>
                             </td>
                             <td style="width: 20%; text-align: center;">
@@ -258,7 +281,7 @@
                                 <p></p>
                             </td>
                             <td style="width: 20%; text-align: center;">
-                                <img src='figs/polygon_5b.png' width="90%">
+                                <img src='figs/polygon_5b_new.png' width="90%">
                                 <p></p>
                             </td>
                             <td style="width: 20%; text-align: center;">
@@ -359,7 +382,6 @@
                             <div style="width: 70%; margin: 0 auto;">
                                 <video src="figs/polygon_no_replanning.mp4" type="video/mp4" controls="controls" class="center">
                                 </video>
-                                <!-- <p style="text-align: center;">Planning without grounding leads to execution failure</p> -->
                             </div>
                         </td>
                         <td style="width: 50%; text-align: center;">
@@ -367,7 +389,6 @@
                                 <video src="figs/polygon_replanning.mp4" type="video/mp4" controls="controls" class="center">
                                 </video>
                             </div>
-                            <!-- <p style="text-align: center;">Planning with grounding leads to reactive behavior that succeed in the task</p> -->
                         </td>
                     </tr>
 
@@ -383,12 +404,118 @@
                 </table>
             </div><br><br>
 
+            <div style='text-align: justify; font-size: 15pt; color:#A31F34'>
+                Self-Supervised Data Collection for 2D Navigation Tasks
+                <p></p>
+            </div>
+            <div>
+                To generate the data for training the grounding classifier, we first collect a few successful demonstrations from humans. We then apply synthetic perturbations to demonstration replays to generate additional successful trajectories and failing counterfactuals. Assuming an automatic reset mechanism and a labeling function that decides the trajectory execution outcome, we can collect a large dataset without humans in the loop.
+                <p></p>
+            </div>
+            <div class="row">
+                <table class="center">
+                    <tr>
+                        <td style="width: 16%; text-align: center;">
+                            <img src='figs/tracing_setup.png' width="95%">
+                            <p></p>
+                        </td>
+                        <td style="width: 42%; text-align: center;">
+                            <div style="width: 95%; margin: 0 auto;">
+                                <video src="figs/tracing_teaching_2x.mp4" type="video/mp4" controls="controls" class="center">
+                                </video>
+                            </div>
+                        </td>
+                        <td style="width: 42%; text-align: center;">
+                            <div style="width: 95%; margin: 0 auto;">
+                                <video src="figs/tracing_replay_2:4x.mp4" type="video/mp4" controls="controls" class="center">
+                                </video>
+                            </div>
+                        </td>
+                    </tr>
+            
+                    <tr>
+                        <td style="width: 16%; text-align: center;">
+                            <p style="width: 90%; margin: 0 auto;">Data Collection Setup</p>
+                        </td>
+                        <td style="width: 42%; text-align: center;">
+                            <p style="width: 70%; margin: 0 auto;">Human demonstrations: Mode 1 -> 2 -> 3 -> 4 -> 5. Invalid mode transitions: 1 -> 3 or 1 -> 4 or 1 -> 5 </p>
+                        </td>
+                        <td style="width: 42%; text-align: center;">
+                            <p style="width: 70%; margin: 0 auto;">Add synthetic perturbations to demonstration replays with auto-labeling and auto-reset</p>
+                        </td>
+                    </tr>
+                </table>
+            </div><br><br>
+
+            <div style='text-align: justify; font-size: 15pt; color:#A31F34'>
+                Learning Image-based Grounding Classifier 2D Navigation Tasks
+                <p></p>
+            </div>
+            <div>
+                Given a dataset of perturbed replays with only sparse labels, we learn a classifier that maps image observations to the their corresponding modes shown by distinct colors. 
+                <p></p>
+            </div>
+            <div class="row">
+                <table class="center">
+                    <tr>
+                        <td style="width: 100%; text-align: center;">
+                            <img src='figs/tracing_img_classifier.png' width="80%">
+                            <p></p>
+                        </td>
+                    </tr>
+            
+                    <!-- <tr>
+                        <td style="width: 100%; text-align: center;">
+                            <p style="width: 80%; margin: 0 auto;"></p>
+                        </td>
+                    </tr> -->
+                </table>
+            </div><br><br>
+
+
+            <div style='text-align: justify; font-size: 15pt; color:#A31F34'>
+                Learned Grounding Classifier Enables Replanning for 2D Navigation Tasks
+                <p></p>
+            </div>
+            <div>
+                Once we learn the classifier, we can use it to generate a mode-informed policy that replans when a perturbation would lead the original policy to incur an invalid mode transition (e.g., white directly to blue/yellow/red)
+                <p></p>
+            </div>
+            <div class="row">
+                <table class="center">
+                    <tr>
+                        <td style="width: 50%; text-align: center;">
+                            <div style="width: 90%; margin: 0 auto;">
+                                <video src="figs/tracing_perturb_no_recovery.mp4" type="video/mp4" controls="controls" class="center">
+                                </video>
+                            </div>
+                        </td>
+                        <td style="width: 50%; text-align: center;">
+                            <div style="width: 90%; margin: 0 auto;">
+                                <video src="figs/tracing_perturb_recovery.mp4" type="video/mp4" controls="controls" class="center">
+                                </video>
+                            </div>
+                        </td>
+                    </tr>
+            
+                    <tr>
+                        <td style="width: 50%; text-align: center;">
+                            <p style="width: 90%; margin: 0 auto;">Naive policy: without knowledge of the modes, the robot simply continues after perturbation which can lead to invalid mode transitions. </p>
+                        </td>
+                        <td style="width: 50%; text-align: center;">
+                            <p style="width: 90%; margin: 0 auto;">Mode-conditioned policy: By accurately recognizing the underlying modes, our method allows for recovery when perturbations cause unexpected mode transitions.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div><br><br>
+
+
             <div class="row">
                 <div class="col-md-12">
                     <table class="center">
                         <tr style=font-size:15pt>
                             <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="2">
-                                Learned Mode Segmentation of Demonstrations in Robosuite Manipulation Tasks
+                                Learned Mode Segmentation of Demonstrations for Robosuite Manipulation Tasks
                                 <p>
                             </td>
                         </tr>
@@ -426,7 +553,7 @@
                     <table class="center">
                         <tr style=font-size:15pt>
                             <td style='text-align:left; vertical-align:middle; color:#A31F34' colspan="3">
-                                Learned Grounding facilitates replanning with LLMs to improve execution success rate
+                                Learned Grounding facilitates replanning with LLMs to improve execution success rate for RoboSuite Tasks
                                 <p>
                             </td>
                         </tr>
@@ -479,125 +606,49 @@
                         </tr>
                     </table>
                 </div>
-            </div>
-                
-                <br>
-                Migrating videos from the <a href="https://sites.google.com/view/grounding-plans">old website</a>. Coming soon.
-                
-                
-                
-                </div><br><br>
+            </div><br><br>
 
-        <!-- <div class="row">
-            <div class="col-md-12">
-                <ul>
-                    <table class="center">
-                        <tr style=font-size:15pt>
-                            <td style='text-align:center; vertical-align:middle; color:#A31F34' colspan="4">
-                                Generalization to New Tasks by Reusing Learned Skills
-                                <p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="25%">
-                                <video width="90%" class="center" controls>
-                                    <source src="figs/get_chicken_first.mp4" type="video/mp4">
-                                </video>
-                            </td>        
-                            <td width="25%">
-                                <video width="90%" class="center" controls>
-                                    <source src="figs/get_broccoli_first.mp4" type="video/mp4">
-                                </video>
-                            </td>
-                            <td width="25%">
-                                <video width="90%" class="center" controls>
-                                    <source src="figs/getting_only_chicken.mp4" type="video/mp4">
-                                </video>
-                            </td>
-                            <td width="25%">
-                                <video width="90%" class="center" controls>
-                                    <source src="figs/continuously_getting_chicken.mp4" type="video/mp4">
-                                </video>
-                            </td>
-                        </tr>
-                    </table>
-                    <div style="text-align: justify; width: 98%;">
-                        LTL-DS generalizes to new task structures (encoded by LTL) by flexibly combining individual skills learned in
-                        demonstrations. Consider a demonstration of adding chicken (visiting the yellow region) and then broccoli (visiting the
-                        green region) to a pot (visiting the gray region). After individual DS of visiting the yellow, the green, and the gray
-                        region are learned, they can be recombined given a new LTL (refer to the paper) to solve new tasks such as (1) adding
-                        broccoli and then chicken, (2) adding only chicken, (3) continuously adding chicken. Note the white region represents an
-                        empty spoon and crossing from yellow/green to white means spilling the food.
-                    </div>
-                </ul>
+            <div style='text-align: justify; font-size: 15pt; color:#A31F34'>
+                Learned Grounding Classifier Enables Replanning for Real-World Scooping Task
+                <p></p>
             </div>
-        </div><br>
-
-        <div class="row">
-            <div class="col-md-12">
-                <ul>
-                    <table class="center">
-                        <tr style=font-size:15pt>
-                            <td style='text-align:center; vertical-align:middle; color:#A31F34' colspan="4">
-                                Line Inspection Task
-                                <p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <video width="100%" class="center" controls>
-                                    <source src="figs/exp2.mp4" type="video/mp4">
-                                </video>
-                            </td>
-                        </tr>
-                    </table>
-                </ul>
+            <div>
+                A scooping task that requires the robot to transport at least a marble from one bowl to the other. Given external perturbations, the robot may drop marbles during transport, leading to a failed execution. When an imitation policy does not pay attention to the classified modes (shown on the right in the video), it cannot recover from such failures. In constrast, a mode-conditioned policy can replan and recover from such perturbations. 
+                <p></p>
             </div>
-        </div><br>
-
-        <div class="row">
-            <div class="col-md-12">
-                <ul>
-                    <table class="center">
-                        <tr style=font-size:15pt>
-                            <td style='text-align:center; vertical-align:middle; color:#A31F34' colspan="4">
-                                Color Tracing Task
-                                <p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <video width="100%" class="center" controls>
-                                    <source src="figs/exp3.mp4" type="video/mp4">
+            <div class="row">
+                <table class="center">
+                    <tr>
+                        <td style="width: 50%; text-align: center;">
+                            <div style="width: 95%; margin: 0 auto;">
+                                <video src="figs/scoop_non_reactive_2x.mp4" type="video/mp4" controls="controls"
+                                    class="center">
                                 </video>
-                            </td>
-                        </tr>
-                    </table>
-                </ul>
-            </div>
-        </div><br>
-
-        <div class="row">
-            <div class="col-md-12">
-                <ul>
-                    <table class="center">
-                        <tr style=font-size:15pt>
-                            <td style='text-align:center; vertical-align:middle; color:#A31F34' colspan="4">
-                                Scooping Task
-                                <p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <video width="100%" class="center" controls>
-                                    <source src="figs/exp1_human_perturb.mp4" type="video/mp4">
+                            </div>
+                        </td>
+                        <td style="width: 50%; text-align: center;">
+                            <div style="width: 95%; margin: 0 auto;">
+                                <video src="figs/scoop_reactive_2x.mp4" type="video/mp4" controls="controls" class="center">
                                 </video>
-                            </td>
-                        </tr>
-                    </table>
-                </ul>
-            </div>
-        </div><br> -->
+                            </div>
+                        </td>
+                    </tr>
+            
+                    <tr>
+                        <td style="width: 50%; text-align: center;">
+                            <p style="width: 90%; margin: 0 auto;">Mode-agnostic BC cannot recover from task-level perturbations (e.g. dropping all marbles) </p>
+                        </td>
+                        <td style="width: 50%; text-align: center;">
+                            <p style="width: 90%; margin: 0 auto;">Mode-conditioned BC enabled by the learned grounding can leverage LLM to replan</p>
+                        </td>
+                    </tr>
+                </table>
+            </div><br><br>
+    
+                
+                
+                
+                
 
     </div><br>
 
@@ -633,19 +684,11 @@
                     <strong>IROS 2023 Workshop</strong> (<strong style="color:red;"> Best Student Paper</strong>, Learning Meets
                     Model-based Methods for Manipulation and Grasping Workshop)
                 </em><br>
-        
-                <!-- / -->
-                <!-- <a href="https://arxiv.org/abs/2106.01970">arXiv</a> -->
-                <!-- / -->
-                <!-- <a href="https://www.youtube.com/watch?v=UUVSPJlwhPg">video</a> -->
-                <!-- <p></p> -->
                 <p>We present a continuous motion imitation method that can provably satisfy any discrete plan specified by a
                     Linear Temporal Logic (LTL) formula. Consequently, the imitator is robust to both task- and motion-level
                     disturbances and guaranteed to achieve task success.</p>
             </td>
         </table>
-
-        
 
 
     </div><br><br>
