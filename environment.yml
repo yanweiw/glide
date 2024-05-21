@@ -1,0 +1,23 @@
+name: glide
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pip
+  - python=3.10
+  - pip:
+    - matplotlib==3.4.3
+    - numpy==1.25.2
+    - scipy==1.11.1
+    - polygenerator==0.2.0
+    - ipykernel==6.26.0
+    - imageio==2.34.1
+    - imageio[pyav]
+    - torch==2.0.1
+    - gym==0.26.2
+    - pandas==2.0.3
+    - shapely==2.0.1
+    - networkx==3.1
+    - seaborn==0.12.2
+    - tqdm==4.66.1
+    - wandb==0.15.10
